@@ -1,0 +1,54 @@
+# INFO: First start can take 5 to 10 min (auto install)
+#
+# https://hub.docker.com/r/tuxgasy/dolibarr
+# https://github.com/tuxgasy/docker-dolibarr
+# Thanks to Garcia MICHEL (tuxgasy) for the docker images!
+
+version: '3'
+
+services:
+    db:
+        image: mariadb:10.4
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci 
+        networks:
+            - net        
+        volumes:
+            - data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 'password' # TODO: set db password
+            MYSQL_DATABASE: dolibarr
+            TZ: Europe/Berlin
+
+    webserver:
+        image: tuxgasy/dolibarr:9.0.4-php7.1
+        environment:
+            DOLI_DB_HOST: db
+            DOLI_DB_USER: root
+            DOLI_DB_PASSWORD: 'password' # TODO: set db password
+            DOLI_DB_NAME: dolibarr
+            DOLI_URL_ROOT: 'http://0.0.0.0' # makes web server listen for outside connections
+            DOLI_ADMIN_LOGIN: 'admin' # Admin credentials set on first boot
+            DOLI_ADMIN_PASSWORD: 'admin' # TODO: set admin password
+            PHP_INI_DATE_TIMEZONE: 'Europe/Berlin'
+        links:
+            - db
+        networks:
+            - traefik-net
+            - net
+
+        labels:
+            - "traefik.enable=true"
+            # ROUTER https
+            - "traefik.http.routers.dolibarr-frontend-secure.entrypoints=websecure"
+            - "traefik.http.routers.dolibarr-frontend-secure.rule=Host(`your.sub-domain.com`)" # TODO: set domain
+            # - "traefik.http.routers.dolibarr-frontend-secure.tls=true"
+            - "traefik.http.routers.dolibarr-frontend-secure.tls.certresolver=mytlschallenge"
+
+networks:
+    net:
+    traefik-net:
+        external: true # uses existing network (prevents creating new one)
+        
+
+volumes:
+    data:
