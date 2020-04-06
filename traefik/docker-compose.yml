@@ -1,0 +1,38 @@
+version: "3.5"
+services:
+  traefik:
+    image: "traefik:v2.0"
+    restart: always
+    command:
+      - "--log.level=DEBUG"
+      - "--accesslog=true"
+      - "--accesslog.filepath=/logs/access.log"
+      - "--accesslog.bufferingsize=5000"
+      - "--accesslog.fields.defaultMode=keep"
+      - "--accesslog.fields.headers.defaultMode=keep"
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+      #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.mytlschallenge.acme.email=your@mail.com" # TODO: insert your mail address
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+
+    networks:
+      - traefik-net
+
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "./logs:/logs"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+
+networks:
+  traefik-net: # used by other container to connect to Traefik
+    name: traefik-net # removes directory prefix
