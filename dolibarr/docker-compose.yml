@@ -9,9 +9,9 @@ version: '3'
 services:
     db:
         image: mariadb:10.4
-        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci 
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         networks:
-            - net        
+            - net
         volumes:
             - data:/var/lib/mysql
         environment:
@@ -38,6 +38,7 @@ services:
 
         labels:
             - "traefik.enable=true"
+            - "traefik.docker.network=traefik-net"
             # ROUTER https
             - "traefik.http.routers.dolibarr-frontend-secure.entrypoints=websecure"
             - "traefik.http.routers.dolibarr-frontend-secure.rule=Host(`your.sub-domain.com`)" # TODO: set domain
@@ -48,7 +49,7 @@ networks:
     net:
     traefik-net:
         external: true # uses existing network (prevents creating new one)
-        
+
 
 volumes:
     data:
