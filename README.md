@@ -1,6 +1,6 @@
 # Dolibarr
 
-Update: now a similar setup is available in [tuxgasys' repository](https://github.com/tuxgasy/docker-dolibarr/tree/master/examples/with-rp-traefik).
+> :warning: **Update:** now a similar setup is available in [tuxgasys' repository](https://github.com/tuxgasy/docker-dolibarr/tree/master/examples/with-rp-traefik).
 {: .alert .alert-info}
 
 Setup for [**Dolibarr**](https://www.dolibarr.org/) running inside a **Docker Container** connected to [**Traefik:v2.4**](https://doc.traefik.io/traefik/v2.4/) (reverse proxy). 
