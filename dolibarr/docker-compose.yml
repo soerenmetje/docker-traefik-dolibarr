@@ -44,6 +44,8 @@ services:
             - "traefik.http.routers.dolibarr-frontend-secure.rule=Host(`your.sub-domain.com`)" # TODO: set domain
             # - "traefik.http.routers.dolibarr-frontend-secure.tls=true"
             - "traefik.http.routers.dolibarr-frontend-secure.tls.certresolver=mytlschallenge"
+            - "traefik.http.services.dolibarr.loadbalancer.server.port=80"
+            - "traefik.http.services.dolibarr.loadbalancer.server.scheme=http"
 
 networks:
     net:
