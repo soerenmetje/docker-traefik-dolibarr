@@ -20,7 +20,7 @@ services:
             TZ: Europe/Berlin
 
     webserver:
-        image: tuxgasy/dolibarr:9.0.4-php7.1
+        image: tuxgasy/dolibarr:9.0.4 # tested with 9.0.4, new may also work
         environment:
             DOLI_DB_HOST: db
             DOLI_DB_USER: root
