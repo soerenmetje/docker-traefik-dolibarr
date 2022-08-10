@@ -8,7 +8,7 @@ version: '3'
 
 services:
     db:
-        image: mariadb:10.4
+        image: mariadb:10.8
         command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         networks:
             - net
@@ -20,7 +20,7 @@ services:
             TZ: Europe/Berlin
 
     webserver:
-        image: tuxgasy/dolibarr:9.0.4 # tested with 9.0.4, new may also work
+        image: tuxgasy/dolibarr:15.0.3
         environment:
             DOLI_DB_HOST: db
             DOLI_DB_USER: root
