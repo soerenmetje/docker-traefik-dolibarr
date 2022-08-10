@@ -20,7 +20,7 @@ services:
             TZ: Europe/Berlin
 
     webserver:
-        image: tuxgasy/dolibarr:9.0.4-php7.1
+        image: tuxgasy/dolibarr:9.0.4 # tested with 9.0.4, new may also work
         environment:
             DOLI_DB_HOST: db
             DOLI_DB_USER: root
@@ -46,6 +46,8 @@ services:
             - "traefik.http.routers.dolibarr-frontend-secure.rule=Host(`your.sub-domain.com`)" # TODO: set domain
             # - "traefik.http.routers.dolibarr-frontend-secure.tls=true"
             - "traefik.http.routers.dolibarr-frontend-secure.tls.certresolver=mytlschallenge"
+            - "traefik.http.services.dolibarr.loadbalancer.server.port=80"
+            - "traefik.http.services.dolibarr.loadbalancer.server.scheme=http"
 
 networks:
     net:
