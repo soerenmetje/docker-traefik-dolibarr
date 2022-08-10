@@ -35,7 +35,9 @@ services:
         networks:
             - traefik-net
             - net
-
+        volumes:
+            - ./dolibarr-docs:/var/www/documents
+            - ./dolibarr-custom:/var/www/html/custom
         labels:
             - "traefik.enable=true"
             - "traefik.docker.network=traefik-net"
@@ -47,6 +49,7 @@ services:
 
 networks:
     net:
+        internal: true
     traefik-net:
         external: true # uses existing network (prevents creating new one)
 
